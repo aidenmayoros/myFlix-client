@@ -27343,37 +27343,35 @@ function MainView() {
         }
     ]);
     const [selectedMovie, setSelectedMovie] = (0, _react.useState)(null);
-    if (selectedMovie) return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _movieViewDefault.default), {
-        movie: selectedMovie,
-        onBackClick: ()=>{
-            setSelectedMovie(null);
-        }
-    }, void 0, false, {
-        fileName: "src/components/MainView.js",
-        lineNumber: 66,
-        columnNumber: 4
-    }, this);
-    if (movies.length === 0) return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        children: "The list is empty!"
-    }, void 0, false, {
-        fileName: "src/components/MainView.js",
-        lineNumber: 76,
-        columnNumber: 10
-    }, this);
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        children: movies.map((movie)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _movieCardDefault.default), {
+        children: selectedMovie ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _movieViewDefault.default), {
+            movie: selectedMovie,
+            onBackClick: ()=>{
+                setSelectedMovie(null);
+            }
+        }, void 0, false, {
+            fileName: "src/components/MainView.js",
+            lineNumber: 67,
+            columnNumber: 5
+        }, this) : movies.length ? movies.map((movie)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _movieCardDefault.default), {
                 movie: movie,
                 onClick: (newSelectedMovie)=>{
                     setSelectedMovie(newSelectedMovie);
                 }
             }, movie._id, false, {
                 fileName: "src/components/MainView.js",
-                lineNumber: 82,
-                columnNumber: 5
-            }, this))
+                lineNumber: 75,
+                columnNumber: 6
+            }, this)) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+            children: "The list is empty!"
+        }, void 0, false, {
+            fileName: "src/components/MainView.js",
+            lineNumber: 84,
+            columnNumber: 5
+        }, this)
     }, void 0, false, {
         fileName: "src/components/MainView.js",
-        lineNumber: 80,
+        lineNumber: 65,
         columnNumber: 3
     }, this);
 }
