@@ -1,29 +1,40 @@
 import PropTypes from 'prop-types';
+import Container from '@mui/material/Container';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
 
-function MovieView({ movie, onBackClick }) {
+export default function MovieView({ movie, onBackClick }) {
 	return (
-		<div>
-			<div>
-				<img src={movie.image} className='movie-img' />
-			</div>
-			<div>
-				<span>Title: </span>
-				<span>{movie.title}</span>
-			</div>
-			<div>
-				<span>Description: </span>
-				<span>{movie.description}</span>
-			</div>
-			<div>
-				<span>Genre: </span>
-				<span>{movie.genre.name}</span>
-			</div>
-			<div>
-				<span>Director: </span>
-				<span>{movie.director.name}</span>
-			</div>
-			<button onClick={onBackClick}>Back</button>
-		</div>
+		<Container sx={{ display: 'flex', justifyContent: 'space-between', p: 5 }} maxWidth={'100%'}>
+			<Box sx={{ width: '40%' }}>
+				<Typography variant='h4'>{movie.title}</Typography>
+				<Box>
+					<Box
+						sx={{
+							display: 'flex',
+							justifyContent: 'space-between',
+							alignItems: 'center',
+							pt: 1,
+							pb: 1,
+						}}>
+						<Typography sx={{ color: '#6c757d' }} variant='h5'>
+							{movie.director.name}
+						</Typography>
+						<Typography variant='overline'>{movie.genre.name}</Typography>
+					</Box>
+					<Typography>{movie.description}</Typography>
+				</Box>
+				<Box sx={{ display: 'flex', justifyContent: 'end', alignItems: 'end' }}>
+					<Button sx={{ mt: 5 }} variant='outlined' onClick={onBackClick}>
+						Back
+					</Button>
+				</Box>
+			</Box>
+			<Box sx={{ display: 'flex', width: '50%', justifyContent: 'center' }}>
+				<img src={movie.image} width={250} className='movie-view-selected-img' />
+			</Box>
+		</Container>
 	);
 }
 
@@ -42,5 +53,3 @@ MovieView.propTypes = {
 	}).isRequired,
 	onBackClick: PropTypes.func.isRequired,
 };
-
-export default MovieView;

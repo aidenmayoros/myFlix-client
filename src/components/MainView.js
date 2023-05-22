@@ -1,17 +1,20 @@
 import { useEffect, useState } from 'react';
+import MenuAppBar from './Navigation';
+import SimilarMovies from './similarMovies';
+import Grid from '@mui/material/Grid';
+import Container from '@mui/material/Container';
 import MovieCard from './MovieCard';
 import MovieView from './MovieView';
 
 function MainView() {
 	const [movies, setMovies] = useState([]);
-
 	const [selectedMovie, setSelectedMovie] = useState(null);
 
-	useEffect(() => {
-		const fetchMovieData = async () => {
+	async function fetchMovies() {
+		try {
 			const fetchedData = await fetch('https://aidens-myflix-api.herokuapp.com/movies');
-			const data = await fetchedData.json();
-			const moviesFromAPI = data.map((movie) => {
+			const jsonData = await fetchedData.json();
+			const movies = jsonData.map((movie) => {
 				return {
 					id: movie._id,
 					title: movie.Title,
@@ -29,60 +32,57 @@ function MainView() {
 				};
 			});
 
-			setMovies(moviesFromAPI);
-		};
+			setMovies(movies);
+		} catch (error) {
+			console.log(error);
+		}
+	}
 
-		fetchMovieData();
+	useEffect(() => {
+		fetchMovies();
 	}, []);
 
 	// Display selected movie details and similar movie cards
 	function displayMovieView() {
-		let similarMovies = movies.filter((movie) => {
-			return movie.id !== selectedMovie.id && movie.genre.name == selectedMovie.genre.name;
-		});
-
 		return (
 			<>
-				<MovieView
-					movie={selectedMovie}
-					onBackClick={() => {
-						setSelectedMovie(null);
-					}}
-				/>
-				<br />
-				<h2>Similar Movies</h2>
-				{similarMovies.map((movie) => (
-					<MovieCard
-						key={movie.id}
-						movie={movie}
-						onClick={(newSelectedMovie) => {
-							setSelectedMovie(newSelectedMovie);
+				<Container maxWidth={'100%'}>
+					<MovieView
+						movie={selectedMovie}
+						onBackClick={() => {
+							setSelectedMovie(null);
 						}}
 					/>
-				))}
+					<SimilarMovies movies={movies} selectedMovie={selectedMovie} setSelectedMovie={setSelectedMovie} />
+				</Container>
 			</>
+		);
+	}
+
+	function displayMovieCardList() {
+		return (
+			<Grid sx={{ mt: 1, justifyContent: 'center' }} width={'100%'} container>
+				{movies.map((movie, index) => (
+					<Grid sx={{ m: 2 }} item xs={6} md={4} xl={2} key={index}>
+						<MovieCard
+							key={movie.id}
+							movie={movie}
+							onClick={(newSelectedMovie) => {
+								setSelectedMovie(newSelectedMovie);
+							}}
+						/>
+					</Grid>
+				))}
+			</Grid>
 		);
 	}
 
 	// Display MovieView if there is a selected movie, and display MovieCard list if there is none selected.
 	return (
-		<div>
-			{selectedMovie ? (
-				displayMovieView()
-			) : movies.length ? (
-				movies.map((movie) => (
-					<MovieCard
-						key={movie.id}
-						movie={movie}
-						onClick={(newSelectedMovie) => {
-							setSelectedMovie(newSelectedMovie);
-						}}
-					/>
-				))
-			) : (
-				<div>The Movie list is empty!</div>
-			)}
-		</div>
+		<>
+			<MenuAppBar />
+			{selectedMovie ? displayMovieView() : movies.length ? displayMovieCardList() : <div>The Movie list is empty!</div>}
+		</>
 	);
 }
 
