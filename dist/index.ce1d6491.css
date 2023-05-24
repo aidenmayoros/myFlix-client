@@ -1,13 +1,14 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
 span, p {
   font-size: 24px;
 }
 
 .my-flix {
   color: #4682b4;
-}
-
-.movie-img {
-  width: 350px;
 }
 
 /*# sourceMappingURL=index.ce1d6491.css.map */

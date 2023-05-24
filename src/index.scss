@@ -1,5 +1,10 @@
 $color: steelblue;
 
+body {
+	padding: 0;
+	margin: 0;
+}
+
 span,
 p {
 	font-size: 24px;
@@ -7,8 +12,4 @@ p {
 
 .my-flix {
 	color: $color;
-}
-
-.movie-img {
-	width: 350px;
 }
