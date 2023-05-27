@@ -6,6 +6,7 @@ import Container from '@mui/material/Container';
 import MovieCard from './MovieCard';
 import MovieView from './MovieView';
 import LoginVeiw from './LoginView';
+import SignupView from './SingupView';
 import Navigation from './Navigation';
 
 function MainView() {
@@ -101,12 +102,15 @@ function MainView() {
 					{selectedMovie ? displayMovieView() : movies.length ? displayMovieCardList() : <div>The Movie list is empty!</div>}
 				</>
 			) : (
-				<LoginVeiw
-					onLoggedIn={(user, token) => {
-						setUser(user);
-						setToken(token);
-					}}
-				/>
+				<>
+					<LoginVeiw
+						onLoggedIn={(user, token) => {
+							setUser(user);
+							setToken(token);
+						}}
+					/>
+					<SignupView />
+				</>
 			)}
 		</>
 	);
