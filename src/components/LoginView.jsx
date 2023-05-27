@@ -41,6 +41,8 @@ async function fetchLogin(onLoggedIn, userData, setShowErrorMessage, setErrorMes
 	axios
 		.post('https://aidens-myflix-api.herokuapp.com/login', { Username: userData.Username, Password: userData.Password })
 		.then((response) => {
+			localStorage.setItem('user', JSON.stringify(response.data.user));
+			localStorage.setItem('token', response.data.token);
 			onLoggedIn(response.data.user, response.data.token);
 		})
 		.catch((error) => {
