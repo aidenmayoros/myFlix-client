@@ -6,7 +6,7 @@ import Container from '@mui/material/Container';
 import MovieCard from './MovieCard';
 import MovieView from './MovieView';
 import LoginVeiw from './LoginView';
-import SignupView from './SingupView';
+import SignupView from './SignupView';
 import Navigation from './Navigation';
 
 function MainView() {
@@ -16,6 +16,7 @@ function MainView() {
 	const [token, setToken] = useState(storedToken ? storedToken : null);
 	const [movies, setMovies] = useState([]);
 	const [selectedMovie, setSelectedMovie] = useState(null);
+	const [showLoginPage, setShowLoginPage] = useState(true);
 
 	async function fetchMovies() {
 		try {
@@ -103,13 +104,17 @@ function MainView() {
 				</>
 			) : (
 				<>
-					<LoginVeiw
-						onLoggedIn={(user, token) => {
-							setUser(user);
-							setToken(token);
-						}}
-					/>
-					<SignupView />
+					{showLoginPage ? (
+						<LoginVeiw
+							onLoggedIn={(user, token) => {
+								setUser(user);
+								setToken(token);
+							}}
+							onSignUpClick={() => setShowLoginPage(false)}
+						/>
+					) : (
+						<SignupView backToSignIn={() => setShowLoginPage(true)} />
+					)}
 				</>
 			)}
 		</>

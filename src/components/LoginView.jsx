@@ -12,30 +12,10 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Alert from '@mui/material/Alert';
+import ErrorMessage from './ErrorMessage';
+import Copyright from './Copyright';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import axios from 'axios';
-
-function Copyright(props) {
-	return (
-		<Typography variant='body2' color='text.secondary' align='center' {...props}>
-			{'Copyright © '}
-			<Link color='inherit' href='https://www.aidenmayoros.com/'>
-				aidenmayoros.com
-			</Link>{' '}
-			{new Date().getFullYear()}
-			{'.'}
-		</Typography>
-	);
-}
-
-function ErrorMessage({ message }) {
-	return (
-		<Alert severity='error' variant='outlined' sx={{ mt: 2 }}>
-			{message}
-		</Alert>
-	);
-}
 
 async function fetchLogin(onLoggedIn, userData, setShowErrorMessage, setErrorMessage) {
 	axios
@@ -54,7 +34,7 @@ async function fetchLogin(onLoggedIn, userData, setShowErrorMessage, setErrorMes
 
 const defaultTheme = createTheme();
 
-export default function LoginView({ onLoggedIn }) {
+export default function LoginView({ onLoggedIn, onSignUpClick }) {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [showErrorMessage, setShowErrorMessage] = useState(false);
@@ -129,7 +109,7 @@ export default function LoginView({ onLoggedIn }) {
 								</Link>
 							</Grid>
 							<Grid item>
-								<Link href='#' variant='body2'>
+								<Link href='#' variant='body2' onClick={onSignUpClick}>
 									{"Don't have an account? Sign Up"}
 								</Link>
 							</Grid>
