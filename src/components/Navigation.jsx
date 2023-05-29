@@ -9,7 +9,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import Button from '@mui/material/Button';
 
-export default function MenuAppBar({ onBackClick }) {
+export default function Navigation({ onBackClick, setUser, setToken }) {
 	const [anchorEl, setAnchorEl] = React.useState(null);
 
 	const handleMenu = (event) => {
@@ -51,7 +51,14 @@ export default function MenuAppBar({ onBackClick }) {
 						open={Boolean(anchorEl)}
 						onClose={handleClose}>
 						<MenuItem onClick={handleClose}>Profile</MenuItem>
-						<MenuItem onClick={handleClose}>My account</MenuItem>
+						<MenuItem
+							onClick={() => {
+								setUser(null);
+								setToken(null);
+								localStorage.clear();
+							}}>
+							Logout
+						</MenuItem>
 					</Menu>
 				</Toolbar>
 			</AppBar>

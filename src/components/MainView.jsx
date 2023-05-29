@@ -1,18 +1,28 @@
 import { useEffect, useState } from 'react';
-import MenuAppBar from './Navigation';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import SimilarMovies from './similarMovies';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import MovieCard from './MovieCard';
 import MovieView from './MovieView';
+import LoginVeiw from './LoginView';
+import SignupView from './SignupView';
+import Navigation from './Navigation';
 
 function MainView() {
+	const storedUser = JSON.parse(localStorage.getItem('user'));
+	const storedToken = localStorage.getItem('token');
+	const [user, setUser] = useState(storedUser ? storedUser : null);
+	const [token, setToken] = useState(storedToken ? storedToken : null);
 	const [movies, setMovies] = useState([]);
 	const [selectedMovie, setSelectedMovie] = useState(null);
+	const [showLoginPage, setShowLoginPage] = useState(true);
 
 	async function fetchMovies() {
 		try {
-			const fetchedData = await fetch('https://aidens-myflix-api.herokuapp.com/movies');
+			const fetchedData = await fetch('https://aidens-myflix-api.herokuapp.com/movies', {
+				headers: { Authorization: `Bearer ${token}` },
+			});
 			const jsonData = await fetchedData.json();
 			const movies = jsonData.map((movie) => {
 				return {
@@ -39,8 +49,10 @@ function MainView() {
 	}
 
 	useEffect(() => {
+		if (!token) return;
+
 		fetchMovies();
-	}, []);
+	}, [token]);
 
 	// Display selected movie details and similar movie cards
 	function displayMovieView() {
@@ -77,15 +89,34 @@ function MainView() {
 		);
 	}
 
-	// Display MovieView if there is a selected movie, and display MovieCard list if there is none selected.
 	return (
 		<>
-			<MenuAppBar
-				onBackClick={() => {
-					setSelectedMovie(null);
-				}}
-			/>
-			{selectedMovie ? displayMovieView() : movies.length ? displayMovieCardList() : <div>The Movie list is empty!</div>}
+			{user ? (
+				<>
+					<Navigation
+						onBackClick={() => {
+							setSelectedMovie(null);
+						}}
+						setUser={setUser}
+						setToken={setToken}
+					/>
+					{selectedMovie ? displayMovieView() : movies.length ? displayMovieCardList() : <div>The Movie list is empty!</div>}
+				</>
+			) : (
+				<>
+					{showLoginPage ? (
+						<LoginVeiw
+							onLoggedIn={(user, token) => {
+								setUser(user);
+								setToken(token);
+							}}
+							onSignUpClick={() => setShowLoginPage(false)}
+						/>
+					) : (
+						<SignupView backToSignIn={() => setShowLoginPage(true)} />
+					)}
+				</>
+			)}
 		</>
 	);
 }
