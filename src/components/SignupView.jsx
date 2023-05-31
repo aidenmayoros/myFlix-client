@@ -117,7 +117,12 @@ export default function SignupView({ backToSignIn }) {
 							onChange={(e) => setEmail(e.target.value)}
 						/>
 						<LocalizationProvider dateAdapter={AdapterDayjs}>
-							<DatePicker sx={{ mt: 2 }} label='Birthdate' value={birthdate} onChange={(newValue) => setBirthdate(newValue.$d)} />
+							<DatePicker
+								sx={{ mt: 2 }}
+								label='Birthdate'
+								value={birthdate}
+								onChange={(newValue) => setBirthdate(newValue.$d)}
+							/>
 						</LocalizationProvider>
 						<Button type='submit' fullWidth variant='contained' sx={{ mt: 3, mb: 2 }}>
 							Sign up

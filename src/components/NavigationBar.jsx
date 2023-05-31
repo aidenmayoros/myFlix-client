@@ -8,9 +8,17 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import Button from '@mui/material/Button';
+import { useNavigate, useLocation } from 'react-router';
 
-export default function Navigation({ onBackClick, setUser, setToken }) {
+export default function NavigationBar({ user, onLoggedOut }) {
+	const { pathname } = useLocation();
+	const shouldHideNavigation = ['/login', '/signup'].includes(pathname);
+	if (shouldHideNavigation) {
+		return null;
+	}
+
 	const [anchorEl, setAnchorEl] = React.useState(null);
+	let navigate = useNavigate();
 
 	const handleMenu = (event) => {
 		setAnchorEl(event.currentTarget);
@@ -24,7 +32,7 @@ export default function Navigation({ onBackClick, setUser, setToken }) {
 		<Box sx={{ flexGrow: 1 }}>
 			<AppBar position='static'>
 				<Toolbar sx={{ justifyContent: 'space-between' }}>
-					<Button sx={{ color: 'white' }} variant='text' onClick={onBackClick}>
+					<Button sx={{ color: 'white' }} variant='text' onClick={() => navigate('/')}>
 						MyFlix
 					</Button>
 					<IconButton
@@ -51,14 +59,7 @@ export default function Navigation({ onBackClick, setUser, setToken }) {
 						open={Boolean(anchorEl)}
 						onClose={handleClose}>
 						<MenuItem onClick={handleClose}>Profile</MenuItem>
-						<MenuItem
-							onClick={() => {
-								setUser(null);
-								setToken(null);
-								localStorage.clear();
-							}}>
-							Logout
-						</MenuItem>
+						<MenuItem onClick={onLoggedOut}>Logout</MenuItem>
 					</Menu>
 				</Toolbar>
 			</AppBar>

@@ -19,7 +19,10 @@ import axios from 'axios';
 
 async function fetchLogin(onLoggedIn, userData, setShowErrorMessage, setErrorMessage) {
 	axios
-		.post('https://aidens-myflix-api.herokuapp.com/login', { Username: userData.Username, Password: userData.Password })
+		.post('https://aidens-myflix-api.herokuapp.com/login', {
+			Username: userData.Username,
+			Password: userData.Password,
+		})
 		.then((response) => {
 			localStorage.setItem('user', JSON.stringify(response.data.user));
 			localStorage.setItem('token', response.data.token);
@@ -98,7 +101,10 @@ export default function LoginView({ onLoggedIn, onSignUpClick }) {
 							autoComplete='current-password'
 							onChange={(e) => setPassword(e.target.value)}
 						/>
-						<FormControlLabel control={<Checkbox value='remember' color='primary' />} label='Remember me' />
+						<FormControlLabel
+							control={<Checkbox value='remember' color='primary' />}
+							label='Remember me'
+						/>
 						<Button type='submit' fullWidth variant='contained' sx={{ mt: 3, mb: 2 }}>
 							Sign In
 						</Button>
