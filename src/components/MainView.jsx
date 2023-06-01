@@ -8,6 +8,8 @@ import MovieView from './MovieView';
 import LoginVeiw from './LoginView';
 import SignupView from './SignupView';
 import NavigationBar from './NavigationBar';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 function MainView() {
 	const storedUser = JSON.parse(localStorage.getItem('user'));
@@ -113,7 +115,9 @@ function MainView() {
 							{!user ? (
 								<Navigate to='/login' replace />
 							) : !movies.length ? (
-								<div>The movie list is blank</div>
+								<Box sx={{ display: 'flex', justifyContent: 'center', mt: 50 }}>
+									<CircularProgress size={100} />
+								</Box>
 							) : (
 								displayMovieCardList()
 							)}
