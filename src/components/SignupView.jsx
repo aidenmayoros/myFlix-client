@@ -15,8 +15,9 @@ import axios from 'axios';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { useNavigate } from 'react-router-dom';
 
-async function fetchSignUp(userData, setShowErrorMessage, setErrorMessage, backToSignIn) {
+async function fetchSignUp(userData, setShowErrorMessage, setErrorMessage) {
 	axios
 		.post('https://aidens-myflix-api.herokuapp.com/users', {
 			Username: userData.Username,
@@ -26,7 +27,6 @@ async function fetchSignUp(userData, setShowErrorMessage, setErrorMessage, backT
 		})
 		.then((response) => {
 			alert('Signup Worked');
-			backToSignIn();
 		})
 		.catch((error) => {
 			console.log(error);
@@ -37,13 +37,14 @@ async function fetchSignUp(userData, setShowErrorMessage, setErrorMessage, backT
 
 const defaultTheme = createTheme();
 
-export default function SignupView({ backToSignIn }) {
+export default function SignupView() {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
 	const [email, setEmail] = useState('');
 	const [birthdate, setBirthdate] = useState(null);
 	const [showErrorMessage, setShowErrorMessage] = useState(false);
 	const [errorMessage, setErrorMessage] = useState('');
+	const navigate = useNavigate();
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
@@ -61,7 +62,7 @@ export default function SignupView({ backToSignIn }) {
 			Birthday: birthdate,
 		};
 
-		fetchSignUp(userData, setShowErrorMessage, setErrorMessage, backToSignIn);
+		fetchSignUp(userData, setShowErrorMessage, setErrorMessage);
 	};
 
 	return (
@@ -127,7 +128,7 @@ export default function SignupView({ backToSignIn }) {
 						<Button type='submit' fullWidth variant='contained' sx={{ mt: 3, mb: 2 }}>
 							Sign up
 						</Button>
-						<Button type='button' fullWidth variant='contained' onClick={backToSignIn}>
+						<Button type='button' fullWidth variant='contained' onClick={() => navigate('/login')}>
 							Cancel
 						</Button>
 					</Box>

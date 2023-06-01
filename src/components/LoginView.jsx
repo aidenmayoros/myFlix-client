@@ -16,6 +16,7 @@ import ErrorMessage from './ErrorMessage';
 import Copyright from './Copyright';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 async function fetchLogin(onLoggedIn, userData, setShowErrorMessage, setErrorMessage) {
 	axios
@@ -42,6 +43,7 @@ export default function LoginView({ onLoggedIn, onSignUpClick }) {
 	const [password, setPassword] = useState('');
 	const [showErrorMessage, setShowErrorMessage] = useState(false);
 	const [errorMessage, setErrorMessage] = useState('');
+	const navigate = useNavigate();
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
@@ -115,7 +117,7 @@ export default function LoginView({ onLoggedIn, onSignUpClick }) {
 								</Link>
 							</Grid>
 							<Grid item>
-								<Link href='#' variant='body2' onClick={onSignUpClick}>
+								<Link variant='body2' href='#' onClick={() => navigate('/signup')}>
 									{"Don't have an account? Sign Up"}
 								</Link>
 							</Grid>

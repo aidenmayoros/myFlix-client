@@ -100,7 +100,6 @@ function MainView() {
 										setUser(user);
 										setToken(token);
 									}}
-									onSignUpClick={() => setShowLoginPage(false)}
 								/>
 							)}
 						</>
