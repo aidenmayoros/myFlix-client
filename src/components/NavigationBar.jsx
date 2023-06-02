@@ -58,7 +58,7 @@ export default function NavigationBar({ user, onLoggedOut }) {
 						}}
 						open={Boolean(anchorEl)}
 						onClose={handleClose}>
-						<MenuItem onClick={handleClose}>Profile</MenuItem>
+						<MenuItem onClick={() => navigate('/profile')}>Profile</MenuItem>
 						<MenuItem onClick={onLoggedOut}>Logout</MenuItem>
 					</Menu>
 				</Toolbar>

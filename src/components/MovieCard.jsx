@@ -11,7 +11,7 @@ export default function MovieCard({ movie, backgroundColor }) {
 	return (
 		<Grow in={true} appear={true} timeout={1000} style={{ transformOrigin: '0 0 0' }}>
 			<CardActionArea>
-				<Link to={`/movies/${encodeURIComponent(movie.id)}`} color='red' underline='none'>
+				<Link to={`/movies/${encodeURIComponent(movie.id)}`} color='red'>
 					<Card sx={{ height: 480, backgroundColor: backgroundColor }}>
 						<CardMedia
 							sx={{ objectFit: 'contain', mt: 2 }}

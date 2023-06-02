@@ -1,0 +1,19 @@
+$color: steelblue;
+
+body {
+	padding: 0;
+	margin: 0;
+}
+
+span,
+p {
+	font-size: 24px;
+}
+
+.my-flix {
+	color: $color;
+}
+
+a {
+	text-decoration: none;
+}
