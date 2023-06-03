@@ -27,9 +27,6 @@ export default function ProfileView({ user, token, movies }) {
 	const [errorMessage, setErrorMessage] = useState('');
 	const navigate = useNavigate();
 
-	console.log(user, currentUsername);
-	console.log(token);
-
 	// Format the birthdate data to MM/DD/YYYY format for date input
 	function padTo2Digits(num) {
 		return num.toString().padStart(2, '0');
@@ -45,7 +42,6 @@ export default function ProfileView({ user, token, movies }) {
 	}
 
 	async function fetchUpdateAccount() {
-		console.log('requesting');
 		await axios
 			.put(
 				`https://aidens-myflix-api.herokuapp.com/users/${currentUsername}`,
@@ -60,7 +56,8 @@ export default function ProfileView({ user, token, movies }) {
 				}
 			)
 			.then((response) => {
-				alert('Update was Successful');
+				alert('Update Success');
+				navigate('/');
 			})
 			.catch((error) => {
 				console.log(error);
@@ -88,7 +85,6 @@ export default function ProfileView({ user, token, movies }) {
 					display: 'flex',
 					flexDirection: 'column',
 					justifyContent: 'center',
-					maxWidth: '350px',
 				}}>
 				<Typography variant='h5'>Update Account</Typography>
 				{showErrorMessage ? <ErrorMessage message={errorMessage} /> : <span></span>}
@@ -154,6 +150,11 @@ export default function ProfileView({ user, token, movies }) {
 							<Button type='button' variant='contained' fullWidth onClick={() => navigate('/')}>
 								Back
 							</Button>
+						</Grid>
+						<Grid item xs={12}>
+							<Link sx={{ float: 'right', color: 'red' }} href='#' underline='hover'>
+								Delete Account
+							</Link>
 						</Grid>
 					</Grid>
 				</Box>

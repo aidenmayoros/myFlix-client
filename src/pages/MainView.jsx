@@ -18,6 +18,7 @@ function MainView() {
 	const [user, setUser] = useState(storedUser ? storedUser : null);
 	const [token, setToken] = useState(storedToken ? storedToken : null);
 	const [movies, setMovies] = useState([]);
+	const [selectedMovie, setSelectedMovie] = useState();
 
 	async function fetchMovies() {
 		try {
@@ -63,7 +64,7 @@ function MainView() {
 			<>
 				<Container maxWidth={'100%'}>
 					<MovieView movies={movies} />
-					<SimilarMovies movies={movies} />
+					<SimilarMovies movies={movies} setSelectedMovie={setSelectedMovie} />
 				</Container>
 			</>
 		);
@@ -74,7 +75,7 @@ function MainView() {
 			<Grid sx={{ mt: 1, justifyContent: 'center' }} width={'100%'} container>
 				{movies.map((movie, index) => (
 					<Grid sx={{ m: 2 }} item xs={6} md={4} xl={2} key={index}>
-						<MovieCard movie={movie} />
+						<MovieCard movie={movie} setSelectedMovie={setSelectedMovie} />
 					</Grid>
 				))}
 			</Grid>

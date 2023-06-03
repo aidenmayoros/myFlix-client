@@ -7,11 +7,11 @@ import { CardActionArea } from '@mui/material';
 import { Link } from 'react-router-dom';
 import Grow from '@mui/material/Grow';
 
-export default function MovieCard({ movie, backgroundColor }) {
+export default function MovieCard({ movie, backgroundColor, setSelectedMovie }) {
 	return (
 		<Grow in={true} appear={true} timeout={1000} style={{ transformOrigin: '0 0 0' }}>
-			<CardActionArea>
-				<Link to={`/movies/${encodeURIComponent(movie.id)}`} color='red'>
+			<CardActionArea onClick={() => setSelectedMovie(movie)}>
+				<Link to={`/movies/${encodeURIComponent(movie.id)}`}>
 					<Card sx={{ height: 480, backgroundColor: backgroundColor }}>
 						<CardMedia
 							sx={{ objectFit: 'contain', mt: 2 }}
