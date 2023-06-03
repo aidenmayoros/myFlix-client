@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { useState } from 'react';
+import ErrorMessage from '../components/ErrorMessage';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
@@ -16,18 +17,20 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 
-export default function ProfileView({ user, movies }) {
-	const [username, setUsername] = useState('');
+export default function ProfileView({ user, token, movies }) {
+	const [username, setUsername] = useState(user.Username);
+	const [currentUsername, setCurrentUsername] = useState(user.Username);
 	const [password, setPassword] = useState('');
-	const [email, setEmail] = useState('');
-	const [birthdate, setBirthdate] = useState(user ? formatedBirthdate() : null);
+	const [email, setEmail] = useState(user.Email);
+	const [birthdate, setBirthdate] = useState(formatedBirthdate());
 	const [showErrorMessage, setShowErrorMessage] = useState(false);
 	const [errorMessage, setErrorMessage] = useState('');
 	const navigate = useNavigate();
 
-	console.log(birthdate);
-	console.log(user);
+	console.log(user, currentUsername);
+	console.log(token);
 
+	// Format the birthdate data to MM/DD/YYYY format for date input
 	function padTo2Digits(num) {
 		return num.toString().padStart(2, '0');
 	}
@@ -41,25 +44,59 @@ export default function ProfileView({ user, movies }) {
 		return [padTo2Digits(month), padTo2Digits(day), year].join('/');
 	}
 
-	function handleSubmit() {
-		return;
+	async function fetchUpdateAccount() {
+		console.log('requesting');
+		await axios
+			.put(
+				`https://aidens-myflix-api.herokuapp.com/users/${currentUsername}`,
+				{
+					Username: username,
+					Password: password,
+					Email: email,
+					Birthday: birthdate,
+				},
+				{
+					headers: { Authorization: `Bearer ${token}` },
+				}
+			)
+			.then((response) => {
+				alert('Update was Successful');
+			})
+			.catch((error) => {
+				console.log(error);
+				setShowErrorMessage(true);
+				setErrorMessage('Account update failed');
+			});
 	}
 
+	const handleSubmit = (event) => {
+		event.preventDefault();
+
+		if (username === '' || password === '' || email === '') {
+			setShowErrorMessage(true);
+			setErrorMessage('Please fill in all required* fields');
+			return;
+		}
+
+		fetchUpdateAccount();
+	};
+
 	return (
-		<Container sx={{ display: 'flex', justifyContent: 'center', p: 5 }} maxWidth={'100%'}>
+		<Container sx={{ p: 5 }} maxWidth='xs'>
 			<Box
 				sx={{
 					display: 'flex',
 					flexDirection: 'column',
-					width: '100%',
-					maxWidth: '450px',
+					justifyContent: 'center',
+					maxWidth: '350px',
 				}}>
 				<Typography variant='h5'>Update Account</Typography>
+				{showErrorMessage ? <ErrorMessage message={errorMessage} /> : <span></span>}
 				<Box component='form' onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
 					<Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 						<Grid item xs={12}>
 							<TextField
-								sx={{ width: '100%', maxWidth: '300px' }}
+								sx={{ width: '100%' }}
 								margin='normal'
 								required
 								id='username'
@@ -67,13 +104,13 @@ export default function ProfileView({ user, movies }) {
 								name='username'
 								autoFocus
 								autoComplete='username'
-								value={user ? user.Username : 'Username'}
+								defaultValue={currentUsername}
 								onChange={(e) => setUsername(e.target.value)}
 							/>
 						</Grid>
 						<Grid item xs={12}>
 							<TextField
-								sx={{ width: '100%', maxWidth: '300px' }}
+								sx={{ width: '100%' }}
 								margin='normal'
 								required
 								name='password'
@@ -86,7 +123,7 @@ export default function ProfileView({ user, movies }) {
 						</Grid>
 						<Grid item xs={12}>
 							<TextField
-								sx={{ width: '100%', maxWidth: '300px' }}
+								sx={{ width: '100%' }}
 								margin='normal'
 								required
 								name='email'
@@ -94,14 +131,14 @@ export default function ProfileView({ user, movies }) {
 								type='email'
 								id='email'
 								autoComplete='current-email'
-								value={user ? user.Email : 'Email'}
+								defaultValue={user.Email}
 								onChange={(e) => setEmail(e.target.value)}
 							/>
 						</Grid>
 						<Grid item xs={12}>
 							<LocalizationProvider dateAdapter={AdapterDayjs}>
 								<DatePicker
-									sx={{ mt: 2, width: '100%', maxWidth: '300px' }}
+									sx={{ mt: 2, width: '100%' }}
 									label='Birthdate'
 									defaultValue={dayjs(birthdate)}
 									onChange={(newValue) => setBirthdate(newValue.$d)}
@@ -109,8 +146,13 @@ export default function ProfileView({ user, movies }) {
 							</LocalizationProvider>
 						</Grid>
 						<Grid item xs={12}>
-							<Button sx={{ mt: 3 }} type='submit' variant='contained'>
+							<Button sx={{ mt: 3, mb: 2 }} type='submit' variant='contained' fullWidth>
 								Update
+							</Button>
+						</Grid>
+						<Grid item xs={12}>
+							<Button type='button' variant='contained' fullWidth onClick={() => navigate('/')}>
+								Back
 							</Button>
 						</Grid>
 					</Grid>

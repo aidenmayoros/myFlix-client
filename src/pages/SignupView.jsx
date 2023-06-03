@@ -15,7 +15,7 @@ import axios from 'axios';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 async function fetchSignUp(userData, setShowErrorMessage, setErrorMessage) {
 	axios
@@ -27,6 +27,7 @@ async function fetchSignUp(userData, setShowErrorMessage, setErrorMessage) {
 		})
 		.then((response) => {
 			alert('Signup Worked');
+			<Navigate to='/' />;
 		})
 		.catch((error) => {
 			console.log(error);

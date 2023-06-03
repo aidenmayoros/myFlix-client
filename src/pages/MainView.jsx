@@ -85,7 +85,7 @@ function MainView() {
 		return (
 			<>
 				<Container maxWidth={'100%'}>
-					<ProfileView user={user} movies={movies} />
+					<ProfileView user={user} token={token} movies={movies} />
 					{/* Add Fav movie component here */}
 				</Container>
 			</>

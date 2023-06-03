@@ -3,12 +3,10 @@ import Typography from '@mui/material/Typography';
 import MovieCard from './MovieCard';
 import Grid from '@mui/material/Grid';
 import { useParams } from 'react-router';
-import { useNavigate } from 'react-router-dom';
 
 export default function SimilarMovies({ movies }) {
 	const { movieID } = useParams();
-	const selectedMovie = movies.find((item) => item.id === movieID);
-	const navigate = useNavigate();
+	// const selectedMovie = movies.find((item) => item.id === movieID);
 
 	let similarMovies = movies.filter((movie) => {
 		return movie.id !== movieID;
