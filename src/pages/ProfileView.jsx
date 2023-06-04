@@ -7,8 +7,6 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { useState } from 'react';
 import ErrorMessage from '../components/ErrorMessage';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import axios from 'axios';
@@ -16,8 +14,9 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
+import AlertDialog from '../components/AlertDialog';
 
-export default function ProfileView({ user, token, movies }) {
+export default function ProfileView({ user, token, movies, onLoggedOut }) {
 	const [username, setUsername] = useState(user.Username);
 	const [currentUsername, setCurrentUsername] = useState(user.Username);
 	const [password, setPassword] = useState('');
@@ -25,6 +24,7 @@ export default function ProfileView({ user, token, movies }) {
 	const [birthdate, setBirthdate] = useState(formatedBirthdate());
 	const [showErrorMessage, setShowErrorMessage] = useState(false);
 	const [errorMessage, setErrorMessage] = useState('');
+	const [isDialogOpen, setIsDialogOpen] = React.useState(false);
 	const navigate = useNavigate();
 
 	// Format the birthdate data to MM/DD/YYYY format for date input
@@ -57,7 +57,8 @@ export default function ProfileView({ user, token, movies }) {
 			)
 			.then((response) => {
 				alert('Update Success');
-				navigate('/');
+				onLoggedOut();
+				navigate('/login');
 			})
 			.catch((error) => {
 				console.log(error);
@@ -76,6 +77,42 @@ export default function ProfileView({ user, token, movies }) {
 		}
 
 		fetchUpdateAccount();
+	};
+
+	async function fetchDeleteUserAccount() {
+		axios
+			.delete(`https://aidens-myflix-api.herokuapp.com/users/${currentUsername}`, {
+				headers: { Authorization: `Bearer ${token}` },
+			})
+			.then((response) => {
+				alert('Account deleted');
+				onLoggedOut();
+			})
+			.catch((error) => {
+				console.log(error);
+				setShowErrorMessage(true);
+				setErrorMessage('Delete account failed');
+			});
+	}
+
+	// Handle the opening and closing of the dialog modal
+	const handleClickOpen = () => {
+		setIsDialogOpen(true);
+	};
+
+	const handleClose = () => {
+		setIsDialogOpen(false);
+	};
+
+	// Handle the cancel of dialog modal
+	const handleCancel = () => {
+		setIsDialogOpen(false);
+	};
+
+	// Handle the deletion of users account
+	const handleConfirm = () => {
+		fetchDeleteUserAccount();
+		setIsDialogOpen(false);
 	};
 
 	return (
@@ -152,9 +189,20 @@ export default function ProfileView({ user, token, movies }) {
 							</Button>
 						</Grid>
 						<Grid item xs={12}>
-							<Link sx={{ float: 'right', color: 'red' }} href='#' underline='hover'>
+							<Link
+								sx={{ float: 'right', color: 'red' }}
+								href='#'
+								underline='hover'
+								onClick={handleClickOpen}>
 								Delete Account
 							</Link>
+							<AlertDialog
+								title='Are you sure you want to delete your account?'
+								body=''
+								open={isDialogOpen}
+								handleClose={handleClose}
+								handleCancel={handleCancel}
+								handleConfirm={handleConfirm}></AlertDialog>
 						</Grid>
 					</Grid>
 				</Box>

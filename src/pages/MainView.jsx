@@ -86,7 +86,12 @@ function MainView() {
 		return (
 			<>
 				<Container maxWidth={'100%'}>
-					<ProfileView user={user} token={token} movies={movies} />
+					<ProfileView
+						user={user}
+						token={token}
+						movies={movies}
+						onLoggedOut={() => onLoggedOut()}
+					/>
 					{/* Add Fav movie component here */}
 				</Container>
 			</>
