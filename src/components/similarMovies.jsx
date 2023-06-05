@@ -8,8 +8,8 @@ export default function SimilarMovies({ movies, setSelectedMovie }) {
 	const { movieID } = useParams();
 	const selectedMovie = movies.find((item) => item.id === movieID);
 
-	let similarMovies = movies.filter((movie) => {
-		return movie.id !== movieID && movie.genre.name === selectedMovie.genre.name;
+	let userFavorites = movies.filter((movie) => {
+		return movie.genre.name === selectedMovie.genre.name;
 	});
 
 	return (
