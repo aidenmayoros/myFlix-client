@@ -11,6 +11,8 @@ App shows CRUD functionality with Mongo Database. Users are able to sign up, log
 Build process is utalizing Parcel. To create build run parcel [Path to index.html]
 Example: from project directory run - parcel src/index.html
 
+## Site Screenshots
+
 <img src="./images/sign_in.png" width="80%" style="display: block; margin: 0 auto; padding: 10px">
 <img src="./images/sign_up.png" width="80%" style="display: block; margin: 0 auto; padding: 10px">
 <img src="./images/home_page.png" width="80%" style="display: block; margin: 0 auto; padding: 10px">
