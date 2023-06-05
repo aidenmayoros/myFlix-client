@@ -8,6 +8,7 @@ import MovieView from './MovieView';
 import LoginVeiw from './LoginView';
 import SignupView from './SignupView';
 import ProfileView from './ProfileView';
+import UserFavoritesList from '../components/userFavoritesList';
 import NavigationBar from '../components/NavigationBar';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
@@ -92,7 +93,7 @@ function MainView() {
 						movies={movies}
 						onLoggedOut={() => onLoggedOut()}
 					/>
-					{/* Add Fav movie component here */}
+					<UserFavoritesList user={user} movies={movies} setSelectedMovie={setSelectedMovie} />
 				</Container>
 			</>
 		);
