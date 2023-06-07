@@ -12,6 +12,7 @@ import UserFavoritesList from '../components/userFavoritesList';
 import NavigationBar from '../components/NavigationBar';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import axios from 'axios';
 
 function MainView() {
 	const storedUser = JSON.parse(localStorage.getItem('user'));
@@ -19,8 +20,8 @@ function MainView() {
 	const [user, setUser] = useState(storedUser ? storedUser : null);
 	const [token, setToken] = useState(storedToken ? storedToken : null);
 	const [movies, setMovies] = useState([]);
-	const [selectedMovie, setSelectedMovie] = useState();
 
+	// Get all movies from server
 	async function fetchMovies() {
 		try {
 			const fetchedData = await fetch('https://aidens-myflix-api.herokuapp.com/movies', {
@@ -59,24 +60,39 @@ function MainView() {
 		fetchMovies();
 	}, [token]);
 
+	// Use to update user data from server after a change
+	async function getUpdatedUser() {
+		await axios
+			.get(`https://aidens-myflix-api.herokuapp.com/users/${user.Username}`, {
+				headers: { Authorization: `Bearer ${token}` },
+			})
+			.then((response) => {
+				setUser(response.data);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}
+
 	// Display selected movie details and similar movie cards
 	function displayMovieView() {
 		return (
 			<>
 				<Container maxWidth={'100%'}>
-					<MovieView movies={movies} />
-					<SimilarMovies movies={movies} setSelectedMovie={setSelectedMovie} />
+					<MovieView user={user} setUser={setUser} token={token} movies={movies} />
+					<SimilarMovies user={user} movies={movies} />
 				</Container>
 			</>
 		);
 	}
 
 	function displayMovieCardList() {
+		getUpdatedUser();
 		return (
 			<Grid sx={{ mt: 1, justifyContent: 'center' }} width={'100%'} container>
 				{movies.map((movie, index) => (
 					<Grid sx={{ m: 2 }} item xs={6} md={4} xl={2} key={index}>
-						<MovieCard movie={movie} setSelectedMovie={setSelectedMovie} />
+						<MovieCard user={user} movie={movie} />
 					</Grid>
 				))}
 			</Grid>
@@ -93,12 +109,13 @@ function MainView() {
 						movies={movies}
 						onLoggedOut={() => onLoggedOut()}
 					/>
-					<UserFavoritesList user={user} movies={movies} setSelectedMovie={setSelectedMovie} />
+					<UserFavoritesList user={user} token={token} movies={movies} />
 				</Container>
 			</>
 		);
 	}
 
+	// Logout, reset state and clear browser storage
 	function onLoggedOut() {
 		setUser(null);
 		setToken(null);

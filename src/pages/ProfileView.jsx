@@ -27,11 +27,11 @@ export default function ProfileView({ user, token, movies, onLoggedOut }) {
 	const [isDialogOpen, setIsDialogOpen] = React.useState(false);
 	const navigate = useNavigate();
 
-	// Format the birthdate data to MM/DD/YYYY format for date input
 	function padTo2Digits(num) {
 		return num.toString().padStart(2, '0');
 	}
 
+	// Format the birthdate data to MM/DD/YYYY format for date input
 	function formatedBirthdate() {
 		const date = new Date(user.Birthday);
 		const year = date.getFullYear();

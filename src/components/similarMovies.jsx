@@ -4,7 +4,7 @@ import MovieCard from './MovieCard';
 import Grid from '@mui/material/Grid';
 import { useParams } from 'react-router';
 
-export default function SimilarMovies({ movies, setSelectedMovie }) {
+export default function SimilarMovies({ user, movies }) {
 	const { movieID } = useParams();
 	const selectedMovie = movies.find((item) => item.id === movieID);
 
@@ -20,11 +20,7 @@ export default function SimilarMovies({ movies, setSelectedMovie }) {
 			<Grid sx={{ mt: 1, justifyContent: 'center' }} width={'100%'} container>
 				{similarMovies.map((movie, index) => (
 					<Grid sx={{ m: 1 }} item xs={6} md={4} xl={2} key={index}>
-						<MovieCard
-							movie={movie}
-							backgroundColor={'#dbdbdb'}
-							setSelectedMovie={setSelectedMovie}
-						/>
+						<MovieCard user={user} movie={movie} backgroundColor={'#dbdbdb'} />
 					</Grid>
 				))}
 			</Grid>
