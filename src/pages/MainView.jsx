@@ -13,6 +13,7 @@ import NavigationBar from '../components/NavigationBar';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import axios from 'axios';
+import { MyFlixUrl } from '../utils/url';
 
 function MainView() {
 	const storedUser = JSON.parse(localStorage.getItem('user'));
@@ -24,7 +25,7 @@ function MainView() {
 	// Get all movies from server
 	async function fetchMovies() {
 		try {
-			const fetchedData = await fetch('https://aidens-myflix-api.herokuapp.com/movies', {
+			const fetchedData = await fetch(`${MyFlixUrl}/movies`, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
@@ -32,18 +33,18 @@ function MainView() {
 			const jsonData = await fetchedData.json();
 			const movies = jsonData.map((movie) => {
 				return {
-					id: movie._id,
-					title: movie.Title,
-					image: movie.ImagePath,
-					description: movie.Description,
-					actors: movie.Actors,
-					genre: {
-						name: movie.Genre.Name,
-						description: movie.Genre.Description,
+					_id: movie._id,
+					Title: movie.Title,
+					ImagePath: movie.ImagePath,
+					Description: movie.Description,
+					Actors: movie.Actors,
+					Genre: {
+						Name: movie.Genre.Name,
+						Description: movie.Genre.Description,
 					},
 					director: {
-						name: movie.Director.Name,
-						bio: movie.Director.Bio,
+						Name: movie.Director.Name,
+						Bio: movie.Director.Bio,
 					},
 				};
 			});
@@ -58,16 +59,46 @@ function MainView() {
 		if (!token) return;
 
 		fetchMovies();
+		getUser();
 	}, [token]);
 
 	// Use to update user data from server after a change
-	async function getUpdatedUser() {
+	async function getUser() {
 		await axios
-			.get(`https://aidens-myflix-api.herokuapp.com/users/${user.Username}`, {
+			.get(`${MyFlixUrl}/users/${user.Username}`, {
 				headers: { Authorization: `Bearer ${token}` },
 			})
 			.then((response) => {
 				setUser(response.data);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}
+
+	// Add movie to users favorite list
+	async function handleAddToFavorites(movie) {
+		return await axios({
+			method: 'post',
+			url: `${MyFlixUrl}/users/${user.Username}/movies/${movie._id}`,
+			headers: { Authorization: 'Bearer ' + token },
+		})
+			.then((response) => {
+				return getUser();
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}
+
+	// Delete movie from users favorites
+	async function handleRemoveFromFavorites(movie) {
+		return await axios
+			.delete(`${MyFlixUrl}/users/${user.Username}/movies/${movie._id}`, {
+				headers: { Authorization: `Bearer ${token}` },
+			})
+			.then((response) => {
+				return getUser();
 			})
 			.catch((error) => {
 				console.log(error);
@@ -80,19 +111,28 @@ function MainView() {
 			<>
 				<Container maxWidth={'100%'}>
 					<MovieView user={user} setUser={setUser} token={token} movies={movies} />
-					<SimilarMovies user={user} movies={movies} />
+					<SimilarMovies
+						user={user}
+						movies={movies}
+						handleRemoveFromFavorites={handleRemoveFromFavorites}
+						handleAddToFavorites={handleAddToFavorites}
+					/>
 				</Container>
 			</>
 		);
 	}
 
 	function displayMovieCardList() {
-		getUpdatedUser();
 		return (
 			<Grid sx={{ mt: 1, justifyContent: 'center' }} width={'100%'} container>
 				{movies.map((movie, index) => (
-					<Grid sx={{ m: 2 }} item xs={6} md={4} xl={2} key={index}>
-						<MovieCard user={user} movie={movie} />
+					<Grid sx={{ m: 2 }} item xs={6} md={4} xl={2} key={movie.id}>
+						<MovieCard
+							user={user}
+							movie={movie}
+							handleRemoveFromFavorites={handleRemoveFromFavorites}
+							handleAddToFavorites={handleAddToFavorites}
+						/>
 					</Grid>
 				))}
 			</Grid>
@@ -109,7 +149,13 @@ function MainView() {
 						movies={movies}
 						onLoggedOut={() => onLoggedOut()}
 					/>
-					<UserFavoritesList user={user} token={token} movies={movies} />
+					<UserFavoritesList
+						user={user}
+						token={token}
+						movies={movies}
+						handleRemoveFromFavorites={handleRemoveFromFavorites}
+						handleAddToFavorites={handleAddToFavorites}
+					/>
 				</Container>
 			</>
 		);

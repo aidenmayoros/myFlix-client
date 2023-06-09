@@ -17,10 +17,11 @@ import Copyright from '../components/Copyright';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { MyFlixUrl } from '../utils/url';
 
 async function fetchLogin(onLoggedIn, userData, setShowErrorMessage, setErrorMessage) {
 	axios
-		.post('https://aidens-myflix-api.herokuapp.com/login', {
+		.post(`${MyFlixUrl}/login`, {
 			Username: userData.Username,
 			Password: userData.Password,
 		})

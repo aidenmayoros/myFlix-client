@@ -15,6 +15,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 import AlertDialog from '../components/AlertDialog';
+import { MyFlixUrl } from '../utils/url';
 
 export default function ProfileView({ user, token, movies, onLoggedOut }) {
 	const [username, setUsername] = useState(user.Username);
@@ -44,7 +45,7 @@ export default function ProfileView({ user, token, movies, onLoggedOut }) {
 	async function fetchUpdateAccount() {
 		await axios
 			.put(
-				`https://aidens-myflix-api.herokuapp.com/users/${currentUsername}`,
+				`${MyFlixUrl}/users/${currentUsername}`,
 				{
 					Username: username,
 					Password: password,
@@ -81,7 +82,7 @@ export default function ProfileView({ user, token, movies, onLoggedOut }) {
 
 	async function fetchDeleteUserAccount() {
 		axios
-			.delete(`https://aidens-myflix-api.herokuapp.com/users/${currentUsername}`, {
+			.delete(`${MyFlixUrl}/users/${currentUsername}`, {
 				headers: { Authorization: `Bearer ${token}` },
 			})
 			.then((response) => {

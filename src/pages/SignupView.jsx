@@ -28,7 +28,7 @@ export default function SignupView() {
 
 	async function fetchSignUp(userData, setShowErrorMessage, setErrorMessage) {
 		axios
-			.post('https://aidens-myflix-api.herokuapp.com/users', {
+			.post(`${MyFlixUrl}/users`, {
 				Username: userData.Username,
 				Password: userData.Password,
 				Email: userData.Email,

@@ -1,5 +1,8 @@
 import { createRoot } from 'react-dom/client';
 import MainView from './pages/MainView';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 // Import statement to indicate that you need to bundle `./index.scss`
 import './styles/index.scss';

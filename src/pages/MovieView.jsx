@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 import axios from 'axios';
 import * as React from 'react';
+import { MyFlixUrl } from '../utils/url';
 
 export default function MovieView({ user, setUser, token, movies }) {
 	const { movieID } = useParams();
@@ -14,22 +15,6 @@ export default function MovieView({ user, setUser, token, movies }) {
 
 	if (!foundMovie) {
 		return <Navigate to='/' />;
-	}
-
-	// This post request does not work with .post method of axios had to change to this format
-	async function addMovieToFavorites() {
-		await axios({
-			method: 'post',
-			url: `https://aidens-myflix-api.herokuapp.com/users/${user.Username}/movies/${movieID}`,
-			headers: { Authorization: 'Bearer ' + token },
-		})
-			.then((response) => {
-				alert('Movie added to favorites');
-				setUser(response.data);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
 	}
 
 	return (
