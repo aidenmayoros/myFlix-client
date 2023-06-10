@@ -15,14 +15,14 @@ import Box from '@mui/material/Box';
 import axios from 'axios';
 import { MyFlixUrl } from '../utils/url';
 
-function MainView() {
+function HomeView() {
 	const storedUser = JSON.parse(localStorage.getItem('user'));
 	const storedToken = localStorage.getItem('token');
 	const [user, setUser] = useState(storedUser ? storedUser : null);
 	const [token, setToken] = useState(storedToken ? storedToken : null);
 	const [movies, setMovies] = useState([]);
 
-	// Get all movies from server
+	// Get all movies from server and set them to local state
 	async function fetchMovies() {
 		try {
 			const fetchedData = await fetch(`${MyFlixUrl}/movies`, {
@@ -42,7 +42,7 @@ function MainView() {
 						Name: movie.Genre.Name,
 						Description: movie.Genre.Description,
 					},
-					director: {
+					Director: {
 						Name: movie.Director.Name,
 						Bio: movie.Director.Bio,
 					},
@@ -62,7 +62,7 @@ function MainView() {
 		getUser();
 	}, [token]);
 
-	// Use to update user data from server after a change
+	// Use to update user data from server after a database change
 	async function getUser() {
 		await axios
 			.get(`${MyFlixUrl}/users/${user.Username}`, {
@@ -105,12 +105,17 @@ function MainView() {
 			});
 	}
 
-	// Display selected movie details and similar movie cards
 	function displayMovieView() {
 		return (
 			<>
 				<Container maxWidth={'100%'}>
-					<MovieView user={user} setUser={setUser} token={token} movies={movies} />
+					<MovieView
+						user={user}
+						setUser={setUser}
+						token={token}
+						movies={movies}
+						handleAddToFavorites={handleAddToFavorites}
+					/>
 					<SimilarMovies
 						user={user}
 						movies={movies}
@@ -122,11 +127,11 @@ function MainView() {
 		);
 	}
 
-	function displayMovieCardList() {
+	function displayHomeView() {
 		return (
 			<Grid sx={{ mt: 1, justifyContent: 'center' }} width={'100%'} container>
 				{movies.map((movie, index) => (
-					<Grid sx={{ m: 2 }} item xs={6} md={4} xl={2} key={movie.id}>
+					<Grid sx={{ m: 2 }} item xs={6} md={4} xl={2} key={movie._id}>
 						<MovieCard
 							user={user}
 							movie={movie}
@@ -143,16 +148,9 @@ function MainView() {
 		return (
 			<>
 				<Container maxWidth={'100%'}>
-					<ProfileView
-						user={user}
-						token={token}
-						movies={movies}
-						onLoggedOut={() => onLoggedOut()}
-					/>
+					<ProfileView user={user} token={token} onLoggedOut={() => onLoggedOut()} />
 					<UserFavoritesList
 						user={user}
-						token={token}
-						movies={movies}
 						handleRemoveFromFavorites={handleRemoveFromFavorites}
 						handleAddToFavorites={handleAddToFavorites}
 					/>
@@ -201,7 +199,7 @@ function MainView() {
 									<CircularProgress size={100} />
 								</Box>
 							) : (
-								displayMovieCardList()
+								displayHomeView()
 							)}
 						</>
 					}
@@ -223,4 +221,4 @@ function MainView() {
 	);
 }
 
-export default MainView;
+export default HomeView;

@@ -15,9 +15,15 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
 import AlertDialog from '../components/AlertDialog';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 import { MyFlixUrl } from '../utils/url';
 
-export default function ProfileView({ user, token, movies, onLoggedOut }) {
+const Alert = React.forwardRef(function Alert(props, ref) {
+	return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />;
+});
+
+export default function ProfileView({ user, token, onLoggedOut }) {
 	const [username, setUsername] = useState(user.Username);
 	const [currentUsername, setCurrentUsername] = useState(user.Username);
 	const [password, setPassword] = useState('');
@@ -26,7 +32,22 @@ export default function ProfileView({ user, token, movies, onLoggedOut }) {
 	const [showErrorMessage, setShowErrorMessage] = useState(false);
 	const [errorMessage, setErrorMessage] = useState('');
 	const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+	const [open, setOpen] = useState(false);
+	const [alertMessage, setAlertMessage] = useState('');
+	const [severity, setSeverity] = useState('');
 	const navigate = useNavigate();
+
+	const handleSnackOpen = () => {
+		setOpen(true);
+	};
+
+	const handleSnackClose = (event, reason) => {
+		if (reason === 'clickaway') {
+			return;
+		}
+
+		setOpen(false);
+	};
 
 	function padTo2Digits(num) {
 		return num.toString().padStart(2, '0');
@@ -42,7 +63,7 @@ export default function ProfileView({ user, token, movies, onLoggedOut }) {
 		return [padTo2Digits(month), padTo2Digits(day), year].join('/');
 	}
 
-	async function fetchUpdateAccount() {
+	async function updateAccount() {
 		await axios
 			.put(
 				`${MyFlixUrl}/users/${currentUsername}`,
@@ -57,14 +78,15 @@ export default function ProfileView({ user, token, movies, onLoggedOut }) {
 				}
 			)
 			.then((response) => {
-				alert('Update Success');
-				onLoggedOut();
-				navigate('/login');
+				setAlertMessage('Account updated');
+				setSeverity('success');
+				handleSnackOpen();
 			})
 			.catch((error) => {
 				console.log(error);
-				setShowErrorMessage(true);
-				setErrorMessage('Account update failed');
+				setAlertMessage('Account updated failed');
+				setSeverity('error');
+				handleSnackOpen();
 			});
 	}
 
@@ -77,7 +99,7 @@ export default function ProfileView({ user, token, movies, onLoggedOut }) {
 			return;
 		}
 
-		fetchUpdateAccount();
+		updateAccount();
 	};
 
 	async function fetchDeleteUserAccount() {
@@ -208,6 +230,15 @@ export default function ProfileView({ user, token, movies, onLoggedOut }) {
 					</Grid>
 				</Box>
 			</Box>
+			<Snackbar
+				open={open}
+				autoHideDuration={6000}
+				onClose={handleSnackClose}
+				anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+				<Alert onClose={handleSnackClose} severity={severity} sx={{ width: '100%' }}>
+					{alertMessage}
+				</Alert>
+			</Snackbar>
 		</Container>
 	);
 }

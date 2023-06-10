@@ -1,5 +1,5 @@
 import { createRoot } from 'react-dom/client';
-import MainView from './pages/MainView';
+import HomeView from './pages/HomeView';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -8,7 +8,7 @@ dotenv.config();
 import './styles/index.scss';
 
 const App = () => {
-	return <MainView />;
+	return <HomeView />;
 };
 
 // Finds the root of your app

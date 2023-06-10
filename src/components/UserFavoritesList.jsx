@@ -2,13 +2,9 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import MovieCard from './MovieCard';
 import Grid from '@mui/material/Grid';
-import Button from '@mui/material/Button';
-import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function UserFavoritesList({
 	user,
-	token,
-	movies,
 	handleRemoveFromFavorites,
 	handleAddToFavorites,
 }) {

@@ -11,10 +11,10 @@ export default function SimilarMovies({
 	handleAddToFavorites,
 }) {
 	const { movieID } = useParams();
-	const selectedMovie = movies.find((item) => item.id === movieID);
+	const selectedMovie = movies.find((item) => item._id === movieID);
 
 	let similarMovies = movies.filter((movie) => {
-		return movie.id !== movieID && movie.genre.name === selectedMovie.genre.name;
+		return movie._id !== movieID && movie.Genre.Name === selectedMovie.Genre.Name;
 	});
 
 	return (

@@ -5,22 +5,27 @@ import Button from '@mui/material/Button';
 import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
-import axios from 'axios';
 import * as React from 'react';
 import { MyFlixUrl } from '../utils/url';
 
-export default function MovieView({ user, setUser, token, movies }) {
+export default function MovieView({ movies, handleAddToFavorites }) {
 	const { movieID } = useParams();
-	const foundMovie = movies.find((movie) => movie.id === movieID);
+	const foundMovie = movies.find((movie) => movie._id === movieID);
+	const navigate = useNavigate();
 
 	if (!foundMovie) {
 		return <Navigate to='/' />;
 	}
 
+	async function handleAddFavoriteButton(movie) {
+		await handleAddToFavorites(movie);
+		navigate('/profile');
+	}
+
 	return (
 		<Container sx={{ display: 'flex', justifyContent: 'space-between', p: 5 }} maxWidth={'100%'}>
 			<Box sx={{ width: '40%' }}>
-				<Typography variant='h4'>{foundMovie.title}</Typography>
+				<Typography variant='h4'>{foundMovie.Title}</Typography>
 				<Box>
 					<Box
 						sx={{
@@ -31,11 +36,11 @@ export default function MovieView({ user, setUser, token, movies }) {
 							pb: 1,
 						}}>
 						<Typography sx={{ color: '#6c757d' }} variant='h5'>
-							{foundMovie.director.name}
+							{foundMovie.Director.Name}
 						</Typography>
-						<Typography variant='overline'>{foundMovie.genre.name}</Typography>
+						<Typography variant='overline'>{foundMovie.Genre.Name}</Typography>
 					</Box>
-					<Typography>{foundMovie.description}</Typography>
+					<Typography>{foundMovie.Description}</Typography>
 				</Box>
 				<Box
 					sx={{
@@ -48,13 +53,13 @@ export default function MovieView({ user, setUser, token, movies }) {
 						sx={{ mt: 2 }}
 						variant='contained'
 						size='small'
-						onClick={() => addMovieToFavorites()}>
+						onClick={() => handleAddFavoriteButton(foundMovie)}>
 						Add to Favorites
 					</Button>
 				</Box>
 			</Box>
 			<Box sx={{ display: 'flex', width: '50%', justifyContent: 'center' }}>
-				<img src={foundMovie.image} width={250} className='movie-view-selected-img' />
+				<img src={foundMovie.ImagePath} width={250} className='movie-view-selected-img' />
 			</Box>
 		</Container>
 	);
