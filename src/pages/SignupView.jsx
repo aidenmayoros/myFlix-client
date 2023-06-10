@@ -16,6 +16,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { MyFlixUrl } from '../utils/url';
 
 export default function SignupView() {
 	const [username, setUsername] = useState('');

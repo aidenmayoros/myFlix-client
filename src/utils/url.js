@@ -1,4 +1,4 @@
 export const MyFlixUrl =
 	process.env.NODE_ENV === 'development'
-		? 'https://aidens-myflix-api.herokuapp.com'
-		: 'http://localhost:8080';
+		? 'http://localhost:8080/api'
+		: 'https://aidens-myflix-api.herokuapp.com/api';
