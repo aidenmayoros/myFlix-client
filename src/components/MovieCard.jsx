@@ -47,14 +47,14 @@ export default function MovieCard({
 		if (isMovieAFavorite()) {
 			return (
 				<FavoriteIcon
-					sx={{ fontSize: 40, color: '#e61919', cursor: 'pointer' }}
+					sx={{ fontSize: { xs: 30, md: 40 }, color: '#e61919', cursor: 'pointer' }}
 					onClick={() => handleRemove(movie)}
 				/>
 			);
 		}
 		return (
 			<FavoriteBorderIcon
-				sx={{ fontSize: 40, cursor: 'pointer' }}
+				sx={{ fontSize: { xs: 30, md: 40 }, cursor: 'pointer' }}
 				onClick={() => handleAdd(movie)}
 			/>
 		);
@@ -62,7 +62,7 @@ export default function MovieCard({
 
 	return (
 		<Grow in={true} appear={true} timeout={1000} style={{ transformOrigin: '0 0 0' }}>
-			<Card sx={{ backgroundColor: backgroundColor }}>
+			<Card sx={{ backgroundColor: backgroundColor, width: { xs: '100%' } }}>
 				<CardActions sx={{ float: 'right', p: 2 }}>{renderHeartIcon()}</CardActions>
 				<CardActionArea
 					sx={{ height: 400 }}
