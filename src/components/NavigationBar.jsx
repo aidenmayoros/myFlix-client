@@ -38,7 +38,7 @@ export default function NavigationBar({ user, onLoggedOut }) {
 						</Typography>
 					</Button>
 					<IconButton
-						sx={{ transform: { xs: 'scale(1)', md: 'scale(1.5)' } }}
+						sx={{ transform: { xs: 'scale(1.2)', lg: 'scale(1.5)' } }}
 						size='large'
 						aria-label='account of current user'
 						aria-controls='menu-appbar'
@@ -62,13 +62,11 @@ export default function NavigationBar({ user, onLoggedOut }) {
 						open={Boolean(anchorEl)}
 						onClose={handleClose}>
 						<MenuItem
-							sx={{ fontSize: { sm: '2em', md: '1.5em', lg: '1em' } }}
+							sx={{ fontSize: { xs: '1.2em', md: '1em' } }}
 							onClick={() => navigate('/profile')}>
 							Profile
 						</MenuItem>
-						<MenuItem
-							sx={{ fontSize: { sm: '2em', md: '1.5em', lg: '1em' } }}
-							onClick={onLoggedOut}>
+						<MenuItem sx={{ fontSize: { xs: '1.2em', md: '1em' } }} onClick={onLoggedOut}>
 							Logout
 						</MenuItem>
 					</Menu>
