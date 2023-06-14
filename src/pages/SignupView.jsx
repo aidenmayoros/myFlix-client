@@ -37,7 +37,7 @@ export default function SignupView() {
 			})
 			.then((response) => {
 				alert('Signup Worked');
-				<Navigate to='/' />;
+				navigate('/login');
 			})
 			.catch((error) => {
 				console.log(error);
