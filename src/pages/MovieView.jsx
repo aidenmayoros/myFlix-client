@@ -23,14 +23,36 @@ export default function MovieView({ movies, handleAddToFavorites }) {
 	}
 
 	return (
-		<Container sx={{ display: 'flex', justifyContent: 'space-between', p: 5 }} maxWidth={'100%'}>
-			<Box sx={{ width: '40%' }}>
-				<Typography variant='h4'>{foundMovie.Title}</Typography>
+		<Container
+			sx={{
+				display: 'flex',
+				justifyContent: 'space-between',
+				flexDirection: { xs: 'column-reverse', md: 'row' },
+				p: 5,
+			}}
+			maxWidth={'100%'}>
+			<Box
+				sx={{
+					width: { xs: '100%', md: '40%' },
+					display: 'flex',
+					flexDirection: { xs: 'column' },
+					p: 2,
+				}}>
+				<Typography
+					sx={{
+						display: { xs: 'flex', sm: 'block' },
+						justifyContent: 'center',
+						textAlign: { xs: 'center', sm: 'start' },
+					}}
+					variant='h4'>
+					{foundMovie.Title}
+				</Typography>
 				<Box>
 					<Box
 						sx={{
 							display: 'flex',
 							justifyContent: 'space-between',
+							flexDirection: { xs: 'column', sm: 'row' },
 							alignItems: 'center',
 							pt: 1,
 							pb: 1,
@@ -50,7 +72,7 @@ export default function MovieView({ movies, handleAddToFavorites }) {
 						alignItems: 'end',
 					}}>
 					<Button
-						sx={{ mt: 2 }}
+						sx={{ mt: 2, display: { xs: 'none', md: 'inherit' } }}
 						variant='contained'
 						size='small'
 						onClick={() => handleAddFavoriteButton(foundMovie)}>
@@ -58,7 +80,7 @@ export default function MovieView({ movies, handleAddToFavorites }) {
 					</Button>
 				</Box>
 			</Box>
-			<Box sx={{ display: 'flex', width: '50%', justifyContent: 'center' }}>
+			<Box sx={{ display: 'flex', width: { xs: '100%', md: '50%' }, justifyContent: 'center' }}>
 				<img src={foundMovie.ImagePath} width={250} className='movie-view-selected-img' />
 			</Box>
 		</Container>

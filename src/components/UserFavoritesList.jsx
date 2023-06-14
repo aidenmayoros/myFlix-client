@@ -15,7 +15,7 @@ export default function UserFavoritesList({
 			</Typography>
 			<Grid sx={{ mt: 1, justifyContent: 'center' }} width={'100%'} container>
 				{user.FavoriteMovies.map((movie, index) => (
-					<Grid sx={{ m: 1 }} item xs={6} md={4} xl={2} key={index}>
+					<Grid sx={{ m: 1 }} item xs={12} sm={6} md={4} xl={2} key={index}>
 						<MovieCard
 							user={user}
 							movie={movie}

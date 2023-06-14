@@ -24,7 +24,7 @@ export default function SimilarMovies({
 			</Typography>
 			<Grid sx={{ mt: 1, justifyContent: 'center' }} width={'100%'} container>
 				{similarMovies.map((movie, index) => (
-					<Grid sx={{ m: 1 }} item xs={6} md={4} xl={2} key={index}>
+					<Grid sx={{ m: 1, width: '100%' }} item xs={12} sm={5} lg={3} xl={2} key={index}>
 						<MovieCard
 							user={user}
 							movie={movie}
