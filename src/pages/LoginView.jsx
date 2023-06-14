@@ -65,7 +65,7 @@ export default function LoginView({ onLoggedIn, onSignUpClick }) {
 
 	return (
 		<ThemeProvider theme={defaultTheme}>
-			<Container component='main' maxWidth='xs'>
+			<Container component='main' maxWidth='sm'>
 				<CssBaseline />
 				<Box
 					sx={{
@@ -112,12 +112,12 @@ export default function LoginView({ onLoggedIn, onSignUpClick }) {
 							Sign In
 						</Button>
 						<Grid container>
-							<Grid item xs>
+							<Grid xs={12} sm={6} item>
 								<Link href='' variant='body2'>
 									Forgot password?
 								</Link>
 							</Grid>
-							<Grid item>
+							<Grid xs={12} sm={6} item>
 								<Link variant='body2' href='' onClick={() => navigate('/signup')}>
 									{"Don't have an account? Sign Up"}
 								</Link>
