@@ -129,9 +129,9 @@ function HomeView() {
 
 	function displayHomeView() {
 		return (
-			<Grid sx={{ mt: 1, justifyContent: 'center' }} width={'100%'} container>
+			<Grid sx={{ mt: 1, justifyContent: 'center' }} container>
 				{movies.map((movie, index) => (
-					<Grid sx={{ m: { xs: 3, md: 2 } }} item xs={12} sm={4} lg={3} key={movie._id}>
+					<Grid sx={{ m: { xs: 1 } }} xs={12} md={4} lg={3} item key={movie._id}>
 						<MovieCard
 							user={user}
 							movie={movie}

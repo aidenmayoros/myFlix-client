@@ -6,7 +6,6 @@ import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 import * as React from 'react';
-import { MyFlixUrl } from '../utils/url';
 
 export default function MovieView({ movies, handleAddToFavorites }) {
 	const { movieID } = useParams();
@@ -27,22 +26,21 @@ export default function MovieView({ movies, handleAddToFavorites }) {
 			sx={{
 				display: 'flex',
 				justifyContent: 'space-between',
-				flexDirection: { xs: 'column-reverse', md: 'row' },
-				p: 5,
+				flexWrap: { xs: 'wrap-reverse', md: 'nowrap' },
+				p: { xs: 2, md: 4 },
 			}}
-			maxWidth={'100%'}>
+			maxWidth={'100%'}
+			className='movie_container'>
 			<Box
 				sx={{
-					width: { xs: '100%', md: '40%' },
-					display: 'flex',
-					flexDirection: { xs: 'column' },
+					width: '100%',
 					p: 2,
 				}}>
 				<Typography
 					sx={{
-						display: { xs: 'flex', sm: 'block' },
+						display: 'flex',
 						justifyContent: 'center',
-						textAlign: { xs: 'center', sm: 'start' },
+						textAlign: 'center',
 					}}
 					variant='h4'>
 					{foundMovie.Title}
@@ -80,7 +78,7 @@ export default function MovieView({ movies, handleAddToFavorites }) {
 					</Button>
 				</Box>
 			</Box>
-			<Box sx={{ display: 'flex', width: { xs: '100%', md: '50%' }, justifyContent: 'center' }}>
+			<Box sx={{ display: 'flex', width: '100%', justifyContent: 'center', alignItems: 'center' }}>
 				<img src={foundMovie.ImagePath} width={250} className='movie-view-selected-img' />
 			</Box>
 		</Container>

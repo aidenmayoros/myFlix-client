@@ -31,14 +31,12 @@ export default function NavigationBar({ user, onLoggedOut }) {
 	return (
 		<Box sx={{ flexGrow: 1 }}>
 			<AppBar position='static'>
-				<Toolbar sx={{ justifyContent: 'space-between' }}>
+				<Toolbar sx={{ justifyContent: 'space-between', p: 0 }}>
 					<Button sx={{ color: 'white' }} variant='text' onClick={() => navigate('/')}>
-						<Typography sx={{ fontSize: { xs: '1.2em', lg: '1.5em' }, padding: { xs: 2 } }}>
-							MyFlix
-						</Typography>
+						<Typography sx={{ fontSize: { xs: '1.5em' }, padding: { xs: 2 } }}>MyFlix</Typography>
 					</Button>
 					<IconButton
-						sx={{ transform: { xs: 'scale(1.2)', lg: 'scale(1.5)' } }}
+						sx={{ transform: { xs: 'scale(1.2)' }, p: 1, mr: 1 }}
 						size='large'
 						aria-label='account of current user'
 						aria-controls='menu-appbar'
@@ -62,11 +60,11 @@ export default function NavigationBar({ user, onLoggedOut }) {
 						open={Boolean(anchorEl)}
 						onClose={handleClose}>
 						<MenuItem
-							sx={{ fontSize: { xs: '1.2em', md: '1em' } }}
+							sx={{ fontSize: { xs: '1.3em', lg: '1em' } }}
 							onClick={() => navigate('/profile')}>
 							Profile
 						</MenuItem>
-						<MenuItem sx={{ fontSize: { xs: '1.2em', md: '1em' } }} onClick={onLoggedOut}>
+						<MenuItem sx={{ fontSize: { xs: '1.3em', lg: '1em' } }} onClick={onLoggedOut}>
 							Logout
 						</MenuItem>
 					</Menu>
