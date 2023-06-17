@@ -13,6 +13,7 @@ import NavigationBar from '../components/NavigationBar';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 import axios from 'axios';
+import SearchBar from '../components/SearchBar';
 import { MyFlixUrl } from '../utils/url';
 
 function HomeView() {
@@ -21,6 +22,7 @@ function HomeView() {
 	const [user, setUser] = useState(storedUser ? storedUser : null);
 	const [token, setToken] = useState(storedToken ? storedToken : null);
 	const [movies, setMovies] = useState([]);
+	const [allMovies, setAllMovies] = useState([]);
 
 	// Get all movies from server and set them to local state
 	async function fetchMovies() {
@@ -50,6 +52,7 @@ function HomeView() {
 			});
 
 			setMovies(movies);
+			setAllMovies(movies);
 		} catch (error) {
 			console.log(error);
 		}
@@ -130,6 +133,9 @@ function HomeView() {
 	function displayHomeView() {
 		return (
 			<Grid sx={{ mt: 1, justifyContent: 'center' }} container>
+				<Grid sx={{ display: 'flex', justifyContent: 'center' }} xs={12} item>
+					<SearchBar movies={movies} setMovies={setMovies} allMovies={allMovies} />
+				</Grid>
 				{movies.map((movie, index) => (
 					<Grid sx={{ m: { xs: 1 } }} xs={12} md={4} lg={3} item key={movie._id}>
 						<MovieCard
