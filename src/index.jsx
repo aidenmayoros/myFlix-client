@@ -6,7 +6,6 @@ dotenv.config();
 
 // Import statement to indicate that you need to bundle `./index.scss`
 import './styles/index.scss';
-console.log(process.env.NODE_ENV);
 
 const App = () => {
 	return <HomeView />;
