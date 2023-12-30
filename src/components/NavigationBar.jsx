@@ -12,7 +12,8 @@ import { Typography } from '@mui/material';
 
 export default function NavigationBar({ user, onLoggedOut }) {
 	const { pathname } = useLocation();
-	const shouldHideNavigation = ['/login', '/signup'].includes(pathname);
+	const shouldHideNavigation = ['/login', '/signup', '/login/', '/signup/'].includes(pathname);
+	
 	if (shouldHideNavigation) {
 		return null;
 	}
