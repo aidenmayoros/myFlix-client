@@ -1,5 +1,11 @@
 import { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, BrowserRouter } from 'react-router-dom';
+import {
+	BrowserRouter as Router,
+	Routes,
+	Route,
+	Navigate,
+	BrowserRouter,
+} from 'react-router-dom';
 import SimilarMovies from '../components/similarMovies';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
@@ -15,6 +21,7 @@ import Box from '@mui/material/Box';
 import axios from 'axios';
 import SearchBar from '../components/SearchBar';
 import { MyFlixUrl } from '../utils/url';
+import GalleryView from './GalleryView';
 
 function HomeView() {
 	const storedUser = JSON.parse(localStorage.getItem('user'));
@@ -23,6 +30,7 @@ function HomeView() {
 	const [token, setToken] = useState(storedToken ? storedToken : null);
 	const [movies, setMovies] = useState([]);
 	const [allMovies, setAllMovies] = useState([]);
+	const [gallery, setGallery] = useState([]);
 
 	// Get all movies from server and set them to local state
 	async function fetchMovies() {
@@ -58,13 +66,6 @@ function HomeView() {
 		}
 	}
 
-	useEffect(() => {
-		if (!token) return;
-
-		fetchMovies();
-		getUser();
-	}, [token]);
-
 	// Use to update user data from server after a database change
 	async function getUser() {
 		await axios
@@ -78,6 +79,34 @@ function HomeView() {
 				console.log(error);
 			});
 	}
+
+	async function fetchS3Images() {
+		await axios
+			// .get(`${MyFlixUrl}/images`) // Real link
+			.get('http://localhost:8080/images')
+			.then((data) => {
+				const newGallery = data.data.Contents.map((image) => {
+					return image.Key;
+				});
+				setGallery(newGallery);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}
+
+	useEffect(() => {
+		if (!token) return;
+
+		fetchMovies();
+		getUser();
+	}, [token]);
+
+	useEffect(() => {
+		fetchS3Images();
+	}, []);
+
+	console.log(gallery);
 
 	// Add movie to users favorite list
 	async function handleAddToFavorites(movie) {
@@ -134,10 +163,20 @@ function HomeView() {
 		return (
 			<Grid sx={{ mt: 1, justifyContent: 'center' }} container>
 				<Grid sx={{ display: 'flex', justifyContent: 'center' }} xs={12} item>
-					<SearchBar movies={movies} setMovies={setMovies} allMovies={allMovies} />
+					<SearchBar
+						movies={movies}
+						setMovies={setMovies}
+						allMovies={allMovies}
+					/>
 				</Grid>
 				{movies.map((movie, index) => (
-					<Grid sx={{ m: { xs: 1 } }} xs={12} md={4} lg={3} item key={movie._id}>
+					<Grid
+						sx={{ m: { xs: 1 } }}
+						xs={12}
+						md={4}
+						lg={3}
+						item
+						key={movie._id}>
 						<MovieCard
 							user={user}
 							movie={movie}
@@ -154,7 +193,11 @@ function HomeView() {
 		return (
 			<>
 				<Container maxWidth={'100%'}>
-					<ProfileView user={user} token={token} onLoggedOut={() => onLoggedOut()} />
+					<ProfileView
+						user={user}
+						token={token}
+						onLoggedOut={() => onLoggedOut()}
+					/>
 					<UserFavoritesList
 						user={user}
 						handleRemoveFromFavorites={handleRemoveFromFavorites}
@@ -193,7 +236,10 @@ function HomeView() {
 						</>
 					}
 				/>
-				<Route path='/signup' element={<>{user ? <Navigate to='/' /> : <SignupView />}</>} />
+				<Route
+					path='/signup'
+					element={<>{user ? <Navigate to='/' /> : <SignupView />}</>}
+				/>
 				<Route
 					path='/'
 					element={
@@ -212,15 +258,42 @@ function HomeView() {
 				/>
 				<Route
 					path='/movies/:movieID'
-					element={<>{!user ? <Navigate to='/login' replace /> : displayMovieView()}</>}
+					element={
+						<>{!user ? <Navigate to='/login' replace /> : displayMovieView()}</>
+					}
 				/>
 				<Route
 					path='/profile'
-					element={<>{!user ? <Navigate to='/login' replace /> : displayProfileView()}</>}
+					element={
+						<>
+							{!user ? <Navigate to='/login' replace /> : displayProfileView()}
+						</>
+					}
+				/>
+				<Route
+					path='/Gallery'
+					element={
+						<>
+							{!user ? (
+								<Navigate to='/login' replace />
+							) : (
+								<GalleryView
+									gallery={gallery}
+									addImage={(imageName) => {
+										setGallery((prevGallery) => [...prevGallery, imageName]);
+									}}
+								/>
+							)}
+						</>
+					}
 				/>
 				<Route
 					path='*'
-					element={<>{!user ? <Navigate to='/login' reaplce /> : <Navigate to='/' />}</>}
+					element={
+						<>
+							{!user ? <Navigate to='/login' reaplce /> : <Navigate to='/' />}
+						</>
+					}
 				/>
 			</Routes>
 		</BrowserRouter>

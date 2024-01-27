@@ -4,6 +4,9 @@
 // API on Heroku
 export const MyFlixUrl = 'https://aidens-myflix-api.herokuapp.com/api';
 
+// API on EC2 instances
+//export const MyFlixUrl = '/api';
+
 // This is to switch url between testing to production
 // export const MyFlixUrl =
 // 	process.env.NODE_ENV === 'development'

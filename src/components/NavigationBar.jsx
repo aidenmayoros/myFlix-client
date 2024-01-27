@@ -12,8 +12,13 @@ import { Typography } from '@mui/material';
 
 export default function NavigationBar({ user, onLoggedOut }) {
 	const { pathname } = useLocation();
-	const shouldHideNavigation = ['/login', '/signup', '/login/', '/signup/'].includes(pathname);
-	
+	const shouldHideNavigation = [
+		'/login',
+		'/signup',
+		'/login/',
+		'/signup/',
+	].includes(pathname);
+
 	if (shouldHideNavigation) {
 		return null;
 	}
@@ -33,8 +38,13 @@ export default function NavigationBar({ user, onLoggedOut }) {
 		<Box sx={{ flexGrow: 1 }}>
 			<AppBar position='static'>
 				<Toolbar sx={{ justifyContent: 'space-between', p: 0 }}>
-					<Button sx={{ color: 'white' }} variant='text' onClick={() => navigate('/')}>
-						<Typography sx={{ fontSize: { xs: '1.5em' }, padding: { xs: 2 } }}>MyFlix</Typography>
+					<Button
+						sx={{ color: 'white' }}
+						variant='text'
+						onClick={() => navigate('/')}>
+						<Typography sx={{ fontSize: { xs: '1.5em' }, padding: { xs: 2 } }}>
+							MyFlix
+						</Typography>
 					</Button>
 					<IconButton
 						sx={{ transform: { xs: 'scale(1.2)' }, p: 1, mr: 1 }}
@@ -65,8 +75,15 @@ export default function NavigationBar({ user, onLoggedOut }) {
 							onClick={() => navigate('/profile')}>
 							Profile
 						</MenuItem>
-						<MenuItem sx={{ fontSize: { xs: '1.3em', lg: '1em' } }} onClick={onLoggedOut}>
+						<MenuItem
+							sx={{ fontSize: { xs: '1.3em', lg: '1em' } }}
+							onClick={onLoggedOut}>
 							Logout
+						</MenuItem>
+						<MenuItem
+							sx={{ fontSize: { xs: '1.3em', lg: '1em' } }}
+							onClick={() => navigate('/Gallery')}>
+							S3 Images
 						</MenuItem>
 					</Menu>
 				</Toolbar>
