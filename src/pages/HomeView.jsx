@@ -82,8 +82,7 @@ function HomeView() {
 
 	async function fetchS3Images() {
 		await axios
-			// .get(`${MyFlixUrl}/images`) // Real link
-			.get('http://localhost:8080/images')
+			.get(`${MyFlixUrl}/images`)
 			.then((data) => {
 				const newGallery = data.data.Contents.map((image) => {
 					return image.Key;

@@ -5,10 +5,7 @@
 export const MyFlixUrl = 'https://aidens-myflix-api.herokuapp.com/api';
 
 // API on EC2 instances
-//export const MyFlixUrl = '/api';
+// export const MyFlixUrl = 'CF-Load-Balancer-1591128586.us-east-1.elb.amazonaws.com/api';
 
-// This is to switch url between testing to production
-// export const MyFlixUrl =
-// 	process.env.NODE_ENV === 'development'
-// 		? 'https://aidens-myflix-api.herokuapp.com/api'
-// 		: 'http://localhost:8080/api';
+// Local Testing
+// export const MyFlixUrl = 'http://localhost:8080'

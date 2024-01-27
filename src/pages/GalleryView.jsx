@@ -25,8 +25,6 @@ export default function GalleryView({ gallery, addImage }) {
 	const [severity, setSeverity] = useState('');
 	const [open, setOpen] = useState(false);
 
-	const itemData = [];
-
 	const handleSnackOpen = () => {
 		setOpen(true);
 	};
@@ -52,7 +50,7 @@ export default function GalleryView({ gallery, addImage }) {
 
 		try {
 			// Replace with your server endpoint
-			const response = await fetch(`http://localhost:8080/upload`, {
+			const response = await fetch(`${MyFlixUrl}/upload`, {
 				method: 'POST',
 				body: formData,
 			});
@@ -125,8 +123,7 @@ export default function GalleryView({ gallery, addImage }) {
 				{gallery.map((imageName) => (
 					<ImageListItem sx={{ width: 200, height: 200 }}>
 						<img
-							// src={`${MyFlixUrl}/view-image/${imageName}`}
-							src={`http://localhost:8080/view-image/${imageName}`}
+							src={`${MyFlixUrl}/view-image/${imageName}`}
 							alt={imageName}
 							loading='lazy'
 						/>
