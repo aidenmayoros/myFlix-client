@@ -2,18 +2,40 @@ import * as React from 'react';
 import { useState } from 'react';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
-import { Container, Typography } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import TextField from '@mui/material/TextField';
+import Input from '@mui/material/Input';
+import CircularProgress from '@mui/material/CircularProgress';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 import axios from 'axios';
 import { MyFlixUrl } from '../utils/url';
 
-const allS3ImageKeys = [];
-const itemData = [];
+const Alert = React.forwardRef(function Alert(props, ref) {
+	return <MuiAlert elevation={6} ref={ref} variant='filled' {...props} />;
+});
 
 export default function GalleryView({ gallery, addImage }) {
 	const [file, setFile] = useState(null);
+	const [showLoadingSpinner, setShowLoadingSpinner] = useState(false);
+	const [alertMessage, setAlertMessage] = useState('');
+	const [severity, setSeverity] = useState('');
+	const [open, setOpen] = useState(false);
+
+	const itemData = [];
+
+	const handleSnackOpen = () => {
+		setOpen(true);
+	};
+
+	const handleSnackClose = (event, reason) => {
+		if (reason === 'clickaway') {
+			return;
+		}
+
+		setOpen(false);
+	};
 
 	const handleFileChange = (e) => {
 		setFile(e.target.files[0]);
@@ -21,6 +43,7 @@ export default function GalleryView({ gallery, addImage }) {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		setShowLoadingSpinner(true);
 
 		const formData = new FormData();
 		formData.append('image', file);
@@ -34,14 +57,24 @@ export default function GalleryView({ gallery, addImage }) {
 
 			if (response.ok) {
 				const data = await response.json();
-				setTimeout(window.location.reload(), 2000);
 				console.log('File uploaded successfully:', data.message);
+				setAlertMessage('File uploaded successfully');
+				setSeverity('success');
+				handleSnackOpen();
 			} else {
 				console.error('Error uploading file:', response.statusText);
+				setAlertMessage('Unable to upload file');
+				setSeverity('error');
+				handleSnackOpen();
 			}
 		} catch (error) {
 			console.error('Error uploading file:', error.message);
+			setAlertMessage('Unable to upload file');
+			setSeverity('error');
+			handleSnackOpen();
 		}
+		setShowLoadingSpinner(false);
+		// setTimeout(window.location.reload(), 10000);
 	};
 
 	return (
@@ -67,15 +100,36 @@ export default function GalleryView({ gallery, addImage }) {
 					</ImageListItem>
 				))}
 			</ImageList>
-			<form>
-				<Button
-					variant='contained'
-					component='label'
-					startIcon={<CloudUploadIcon />}>
-					Upload File
-					<input type='file' hidden />
-				</Button>
-			</form>
+			{showLoadingSpinner ? (
+				<Box sx={{ display: 'flex', justifyContent: 'center', mt: 50 }}>
+					<CircularProgress size={100} />
+				</Box>
+			) : (
+				<form onSubmit={handleSubmit}>
+					<Input
+						type='file'
+						onChange={handleFileChange}
+						sx={{ p: 1, m: 1 }}></Input>
+					<Button
+						type='submit'
+						variant='contained'
+						startIcon={<CloudUploadIcon />}>
+						Upload File
+					</Button>
+				</form>
+			)}
+			<Snackbar
+				open={open}
+				autoHideDuration={6000}
+				onClose={handleSnackClose}
+				anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+				<Alert
+					onClose={handleSnackClose}
+					severity={severity}
+					sx={{ width: '100%' }}>
+					{alertMessage}
+				</Alert>
+			</Snackbar>
 		</Container>
 	);
 }

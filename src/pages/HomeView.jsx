@@ -106,8 +106,6 @@ function HomeView() {
 		fetchS3Images();
 	}, []);
 
-	console.log(gallery);
-
 	// Add movie to users favorite list
 	async function handleAddToFavorites(movie) {
 		return await axios({

@@ -84,8 +84,16 @@ export default function SignupView() {
 					<Typography component='h1' variant='h5'>
 						Sign up
 					</Typography>
-					{showErrorMessage ? <ErrorMessage message={errorMessage} /> : <span></span>}
-					<Box component='form' onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+					{showErrorMessage ? (
+						<ErrorMessage message={errorMessage} />
+					) : (
+						<span></span>
+					)}
+					<Box
+						component='form'
+						onSubmit={handleSubmit}
+						noValidate
+						sx={{ mt: 1 }}>
 						<TextField
 							margin='normal'
 							required
@@ -127,10 +135,18 @@ export default function SignupView() {
 								onChange={(newValue) => setBirthdate(newValue.$d)}
 							/>
 						</LocalizationProvider>
-						<Button type='submit' fullWidth variant='contained' sx={{ mt: 3, mb: 2 }}>
+						<Button
+							type='submit'
+							fullWidth
+							variant='contained'
+							sx={{ mt: 3, mb: 2 }}>
 							Sign up
 						</Button>
-						<Button type='button' fullWidth variant='contained' onClick={() => navigate('/login')}>
+						<Button
+							type='button'
+							fullWidth
+							variant='contained'
+							onClick={() => navigate('/login')}>
 							Cancel
 						</Button>
 					</Box>
