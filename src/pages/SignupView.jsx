@@ -29,7 +29,7 @@ export default function SignupView() {
 
 	async function fetchSignUp(userData, setShowErrorMessage, setErrorMessage) {
 		axios
-			.post(`${MyFlixUrl}/users`, {
+			.post(`${MyFlixUrl}/api/users`, {
 				Username: userData.Username,
 				Password: userData.Password,
 				Email: userData.Email,

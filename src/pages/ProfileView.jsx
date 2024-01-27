@@ -66,7 +66,7 @@ export default function ProfileView({ user, token, onLoggedOut }) {
 	async function updateAccount() {
 		await axios
 			.put(
-				`${MyFlixUrl}/users/${currentUsername}`,
+				`${MyFlixUrl}/api/users/${currentUsername}`,
 				{
 					Username: username,
 					Password: password,
@@ -104,7 +104,7 @@ export default function ProfileView({ user, token, onLoggedOut }) {
 
 	async function fetchDeleteUserAccount() {
 		axios
-			.delete(`${MyFlixUrl}/users/${currentUsername}`, {
+			.delete(`${MyFlixUrl}/api/users/${currentUsername}`, {
 				headers: { Authorization: `Bearer ${token}` },
 			})
 			.then((response) => {
@@ -147,9 +147,16 @@ export default function ProfileView({ user, token, onLoggedOut }) {
 					justifyContent: 'center',
 				}}>
 				<Typography variant='h5'>Update Account</Typography>
-				{showErrorMessage ? <ErrorMessage message={errorMessage} /> : <span></span>}
+				{showErrorMessage ? (
+					<ErrorMessage message={errorMessage} />
+				) : (
+					<span></span>
+				)}
 				<Box component='form' onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-					<Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+					<Grid
+						container
+						rowSpacing={1}
+						columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
 						<Grid item xs={12}>
 							<TextField
 								sx={{ width: '100%' }}
@@ -202,12 +209,20 @@ export default function ProfileView({ user, token, onLoggedOut }) {
 							</LocalizationProvider>
 						</Grid>
 						<Grid item xs={12}>
-							<Button sx={{ mt: 3, mb: 2 }} type='submit' variant='contained' fullWidth>
+							<Button
+								sx={{ mt: 3, mb: 2 }}
+								type='submit'
+								variant='contained'
+								fullWidth>
 								Update
 							</Button>
 						</Grid>
 						<Grid item xs={12}>
-							<Button type='button' variant='contained' fullWidth onClick={() => navigate('/')}>
+							<Button
+								type='button'
+								variant='contained'
+								fullWidth
+								onClick={() => navigate('/')}>
 								Back
 							</Button>
 						</Grid>
@@ -235,7 +250,10 @@ export default function ProfileView({ user, token, onLoggedOut }) {
 				autoHideDuration={6000}
 				onClose={handleSnackClose}
 				anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
-				<Alert onClose={handleSnackClose} severity={severity} sx={{ width: '100%' }}>
+				<Alert
+					onClose={handleSnackClose}
+					severity={severity}
+					sx={{ width: '100%' }}>
 					{alertMessage}
 				</Alert>
 			</Snackbar>

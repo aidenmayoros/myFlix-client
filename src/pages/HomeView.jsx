@@ -35,7 +35,7 @@ function HomeView() {
 	// Get all movies from server and set them to local state
 	async function fetchMovies() {
 		try {
-			const fetchedData = await fetch(`${MyFlixUrl}/movies`, {
+			const fetchedData = await fetch(`${MyFlixUrl}/api/movies`, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
@@ -69,7 +69,7 @@ function HomeView() {
 	// Use to update user data from server after a database change
 	async function getUser() {
 		await axios
-			.get(`${MyFlixUrl}/users/${user.Username}`, {
+			.get(`${MyFlixUrl}/api/users/${user.Username}`, {
 				headers: { Authorization: `Bearer ${token}` },
 			})
 			.then((response) => {
@@ -109,7 +109,7 @@ function HomeView() {
 	async function handleAddToFavorites(movie) {
 		return await axios({
 			method: 'post',
-			url: `${MyFlixUrl}/users/${user.Username}/movies/${movie._id}`,
+			url: `${MyFlixUrl}/api/users/${user.Username}/movies/${movie._id}`,
 			headers: { Authorization: 'Bearer ' + token },
 		})
 			.then((response) => {
@@ -123,7 +123,7 @@ function HomeView() {
 	// Delete movie from users favorites
 	async function handleRemoveFromFavorites(movie) {
 		return await axios
-			.delete(`${MyFlixUrl}/users/${user.Username}/movies/${movie._id}`, {
+			.delete(`${MyFlixUrl}/api/users/${user.Username}/movies/${movie._id}`, {
 				headers: { Authorization: `Bearer ${token}` },
 			})
 			.then((response) => {

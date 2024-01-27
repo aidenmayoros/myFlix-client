@@ -19,9 +19,14 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { MyFlixUrl } from '../utils/url';
 
-async function fetchLogin(onLoggedIn, userData, setShowErrorMessage, setErrorMessage) {
+async function fetchLogin(
+	onLoggedIn,
+	userData,
+	setShowErrorMessage,
+	setErrorMessage
+) {
 	axios
-		.post(`${MyFlixUrl}/login`, {
+		.post(`${MyFlixUrl}/api/login`, {
 			Username: userData.Username,
 			Password: userData.Password,
 		})
@@ -80,8 +85,16 @@ export default function LoginView({ onLoggedIn, onSignUpClick }) {
 					<Typography component='h1' variant='h5'>
 						Sign in
 					</Typography>
-					{showErrorMessage ? <ErrorMessage message={errorMessage} /> : <span></span>}
-					<Box component='form' onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+					{showErrorMessage ? (
+						<ErrorMessage message={errorMessage} />
+					) : (
+						<span></span>
+					)}
+					<Box
+						component='form'
+						onSubmit={handleSubmit}
+						noValidate
+						sx={{ mt: 1 }}>
 						<TextField
 							margin='normal'
 							required
@@ -108,7 +121,11 @@ export default function LoginView({ onLoggedIn, onSignUpClick }) {
 							control={<Checkbox value='remember' color='primary' />}
 							label='Remember me'
 						/>
-						<Button type='submit' fullWidth variant='contained' sx={{ mt: 3, mb: 2 }}>
+						<Button
+							type='submit'
+							fullWidth
+							variant='contained'
+							sx={{ mt: 3, mb: 2 }}>
 							Sign In
 						</Button>
 						<Grid container>
@@ -118,7 +135,10 @@ export default function LoginView({ onLoggedIn, onSignUpClick }) {
 								</Link>
 							</Grid>
 							<Grid xs={12} sm={6} item>
-								<Link variant='body2' href='' onClick={() => navigate('/signup')}>
+								<Link
+									variant='body2'
+									href=''
+									onClick={() => navigate('/signup')}>
 									{"Don't have an account? Sign Up"}
 								</Link>
 							</Grid>

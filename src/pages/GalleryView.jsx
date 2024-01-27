@@ -17,8 +17,6 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 });
 
 export default function GalleryView({ gallery, addImage }) {
-	console.log(gallery);
-
 	const [file, setFile] = useState(null);
 	const [showLoadingSpinner, setShowLoadingSpinner] = useState(false);
 	const [alertMessage, setAlertMessage] = useState('');
