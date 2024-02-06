@@ -80,19 +80,19 @@ function HomeView() {
 			});
 	}
 
-	async function fetchS3Images() {
-		await axios
-			.get(`${MyFlixUrl}/images`)
-			.then((data) => {
-				const newGallery = data.data.Contents.map((image) => {
-					return image.Key;
-				});
-				setGallery(newGallery);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-	}
+	// async function fetchS3Images() {
+	// 	await axios
+	// 		.get(`${MyFlixUrl}/images`)
+	// 		.then((data) => {
+	// 			const newGallery = data.data.Contents.map((image) => {
+	// 				return image.Key;
+	// 			});
+	// 			setGallery(newGallery);
+	// 		})
+	// 		.catch((error) => {
+	// 			console.log(error);
+	// 		});
+	// }
 
 	useEffect(() => {
 		if (!token) return;
@@ -101,9 +101,9 @@ function HomeView() {
 		getUser();
 	}, [token]);
 
-	useEffect(() => {
-		fetchS3Images();
-	}, []);
+	// useEffect(() => {
+	// 	fetchS3Images();
+	// }, []);
 
 	// Add movie to users favorite list
 	async function handleAddToFavorites(movie) {
