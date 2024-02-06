@@ -21,7 +21,7 @@ import Box from '@mui/material/Box';
 import axios from 'axios';
 import SearchBar from '../components/SearchBar';
 import { MyFlixUrl } from '../utils/url';
-import GalleryView from './GalleryView';
+// import GalleryView from './GalleryView';
 
 function HomeView() {
 	const storedUser = JSON.parse(localStorage.getItem('user'));
@@ -267,7 +267,7 @@ function HomeView() {
 						</>
 					}
 				/>
-				<Route
+				{/* <Route
 					path='/Gallery'
 					element={
 						<>
@@ -283,7 +283,7 @@ function HomeView() {
 							)}
 						</>
 					}
-				/>
+				/> */}
 				<Route
 					path='*'
 					element={

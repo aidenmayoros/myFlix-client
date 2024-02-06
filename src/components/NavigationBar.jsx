@@ -80,11 +80,11 @@ export default function NavigationBar({ user, onLoggedOut }) {
 							onClick={onLoggedOut}>
 							Logout
 						</MenuItem>
-						<MenuItem
+						{/* <MenuItem
 							sx={{ fontSize: { xs: '1.3em', lg: '1em' } }}
 							onClick={() => navigate('/Gallery')}>
 							S3 Images
-						</MenuItem>
+						</MenuItem> */}
 					</Menu>
 				</Toolbar>
 			</AppBar>
